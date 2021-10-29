@@ -1,0 +1,95 @@
+{{define "detailtypes"}}
+{{- if eq .Kind "Text"}}           <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control">
+                                    <input class="input{{"{{"}}with $errors.{{.Name}}{{"}}"}} is-danger{{"{{"}}end{{"}}"}}" type="text" placeholder="Text input" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Size 0}}size="{{.Size}}"{{end}} value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Password"}}           <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                <div class="field is-grouped">                                  
+                                  <div class="control">
+                                    <input class="input{{"{{"}}with $errors.{{.Name}}{{"}}"}} is-danger{{"{{"}}end{{"}}"}}" type="password" placeholder="****" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Size 0}}size="{{.Size}}"{{end}} value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                  </div>
+                                  <div class="control">
+                                    <a class="button is-info" onmousedown="togglePassword('{{.Name | lowercase}}')" onmouseup="togglePassword('{{.Name | lowercase}}')">
+                                      Show
+                                    </a>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Longtext"}}           <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control">
+                                    <textarea class="textarea" placeholder="Text input" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Rows 0}}rows="{{.Rows}}"{{end}} {{if gt .Size 0}}cols="{{.Size}}"{{end}} {{with .Required}}required{{end}}>{{"{{"}}.Entity.{{.Name}}{{"}}"}}</textarea>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Email"}}          <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control has-icons-left">
+                                    <input class="input{{"{{"}}with $errors.{{.Name}}{{"}}"}} is-danger{{"{{"}}end{{"}}"}}" type="email" placeholder="Email" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Size 0}}size="{{.Size}}"{{end}} value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                  </span>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Tel"}}          <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control has-icons-left">
+                                    <input class="input{{"{{"}}with $errors.{{.Name}}{{"}}"}} is-danger{{"{{"}}end{{"}}"}}" type="tel" placeholder="+49" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                    <span class="icon is-small is-left">
+                                      <i class="fas fa-phone"></i>
+                                    </span>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Integer"}}        <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control">
+                                    <input class="input" type="number" {{if gt .Step 0}}step="{{.Step}}"{{end}}  {{if gt .Min 0}}min="{{.Min}}"{{end}} {{if gt .Max 0}}max="{{.Max}}"{{end}} placeholder="Number input" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Size 0}}size="{{.Size}}"{{end}} value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Number"}}      <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control">
+                                    <input class="input" type="number" {{if gt .Step 0}}step="{{.Step}}"{{end}}  {{if gt .Min 0}}min="{{.Min}}"{{end}} {{if gt .Max 0}}max="{{.Max}}"{{end}} placeholder="Number input" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" {{if gt .Length 0}}maxlength="{{.Length}}"{{end}} {{if gt .Size 0}}size="{{.Size}}"{{end}} value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}" {{with .Required}}required{{end}}>
+                                  </div>
+                                  {{- "{{"}}with $errors.{{.Name}}{{"}}"}} <p class="help is-danger">{{"{{"}}.{{"}}"}} </p>{{"{{"}}end{{"}}"}}
+                                </div>{{end}}
+{{- if eq .Kind "Boolean"}}     <div class="field">
+                                  <label class="label">{{.Name}} {{with .Required}}*{{end}}</label>
+                                  <div class="control">
+                                      <input type="checkbox" name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" value="true" {{"{{"}}if .Entity.{{.Name}}{{"}}"}}checked{{"{{"}}end{{"}}"}}>
+                                  </div>
+                                </div>{{end}}
+{{- if eq .Kind "Lookup"}}             <div class="field">
+                                  <label class="label">{{.Object}}</label>
+                                  <div class="control">
+                                    <div class="select">
+                                      <select name="{{.Name | lowercase}}" id="{{.Name | lowercase}}">
+                                       {{"{{"}}$selected:=.Entity.{{.Name}}{{"}}"}}
+                                       {{"{{"}}range $key, $value :=(index .Lookups "{{.Object | plural}}"){{"}}"}}
+                                        <option value="{{"{{$key}}"}}" {{"{{"}}if eq $key $selected{{"}}"}}selected{{"{{"}}end{{"}}"}}>{{"{{$value}}"}}</option>
+                                      {{"{{end}}"}}
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>{{end}}
+{{- if eq .Kind "Child"}}             <div class="field">
+                                  <label class="label">{{.Object}}</label>
+                                  <div class="control">
+                                    <div class="select">
+                                      <select name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" value="{{"{{"}}.Entity.{{.Name}}{{"}}"}}">
+                                      {{"{{"}}$selected:=.Entity.{{.Name}}{{"}}"}}
+                                       {{"{{"}}range $key, $value :=(index .Lookups "{{.Object | plural}}"){{"}}"}}
+                                        <option value="{{"{{$key}}"}}" {{"{{"}}if eq $key $selected{{"}}"}}selected{{"{{"}}end{{"}}"}}>{{"{{$value}}"}}</option>
+                                      {{"{{end}}"}}
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>{{end}}                                
+{{- end}}
+

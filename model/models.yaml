@@ -1,0 +1,21 @@
+# Configuration
+name: Model Generator
+tasks:
+- kind: template
+  fileext: .go
+  source:
+  - templates\model.tmpl
+  - templates\modeltypes.tmpl
+  target: model
+  template: model
+  
+- kind: template
+  fileext: .go
+  source:
+  - templates\repository.tmpl
+  target: model
+  template: repository
+  filename: repository
+
+
+

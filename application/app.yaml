@@ -1,0 +1,11 @@
+# Configuration
+name: Application Generator
+tasks:
+#Main
+- kind: template
+  fileext: .go
+  source:
+  - main.tmpl
+  target: 
+  template: main
+  filename: main

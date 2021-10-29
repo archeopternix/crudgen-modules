@@ -1,0 +1,18 @@
+{{define "modeltypes"}}
+{{- if eq .Kind "Text"}}	{{.Name}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Password"}}	{{.Name}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Integer"}}	{{.Name}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Number"}}	{{.Name}}	float64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Boolean"}}	{{.Name}}	bool	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Email"}}	{{.Name}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Tel"}}	{{.Name}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Longtext"}}	{{.Name}}	string	`form:"{{lowercase .Name}}" ,db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Time"}}	{{.Name}}	time.Time	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "Lookup"}}	{{.Name}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// Lookup entity: {{.Name}}
+	{{.Object}}	string // {{.Object}} label will not be persistet is list view{{end}}
+{{- if eq .Kind "Parent"}}	{{.Name | plural}}	{{.Object}}List	`form:"-"`	// one2many: childs only for view (not persistet){{end}}
+{{- if eq .Kind "Child"}}	{{.Name}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// one2many: parent entity {{.Name}}
+	{{.Object}}	string // {{.Object}} label will not be persistet is for list view{{end}}
+{{- if eq .Kind "manychild"}}	{{.Name}}Id	string	`json:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// many2many: Id of parent object, mappingtable: {{.Object}}{{end}}
+{{- if eq .Kind "manyparent"}}	{{.Name | plural}}	{{.Name}}List	`json:"-"`	// many2many: childs of target, mappingtable: {{.Object}}{{end}}
+{{- end}}

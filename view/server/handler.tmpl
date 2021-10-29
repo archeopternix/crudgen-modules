@@ -1,0 +1,185 @@
+{{define "handler" -}}
+// Package view all view related structs and functions
+// Generated code - do not modify it will be overwritten!!
+// Time: {{.Entity.TimeStamp}}
+package view
+
+import (
+	"github.com/labstack/echo/v4"
+	"net/http"
+	"fmt"
+	model "{{.AppName}}/model"
+)
+
+{{with .Entity}}
+
+
+// List{{plural .Name}} fetches all {{plural .Name}} recordes from database and
+// renders it with the '{{lowercase .Name}}list' template
+func (s Server) List{{plural .Name}}(c echo.Context) error {
+	{{.Name | plural | lowercase}},err := s.Env.{{.Name | plural}}.GetAll()
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "{{plural .Name}} not found")
+	}
+	
+	data := struct {		
+		Lookups map[string]model.Labels
+		Records  model.{{.Name}}List
+	}{}
+	data.Records = {{.Name | plural | lowercase}}
+	data.Lookups = make(map[string]model.Labels)
+		
+	{{- $name := .Name}}
+	{{- range .Fields}}{{if eq .Kind "Lookup" "Child"}}
+	data.Lookups["{{.Object | plural}}"], _ = s.Env.{{.Object | plural}}.GetLabels()	
+	{{- end}}{{end}}
+	
+	p:=NewPage("{{.Name | plural}}", "{{.Name | plural}}")
+	p.Data = data
+	return c.Render(http.StatusOK, "{{lowercase .Name}}list", p)
+}
+
+// Get{{.Name}} gets one single record with 'id' from the database and  
+// renders it with the '{{lowercase .Name}}detail' template
+func (s Server) Get{{.Name}}(c echo.Context) error {
+	id := c.Param("id")
+	
+	{{lowercase .Name}}, err := s.Env.{{.Name | plural}}.Get(asUint(id))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "{{.Name}} with id:"+id+" not found")
+	}
+	
+	data := struct {		
+		Lookups map[string]model.Labels
+		{{- range .Fields}}{{if eq .Kind "Parent" }}
+		{{.Object}}Childs model.{{.Object}}List
+		{{- end}}{{end}}
+		Entity  *model.{{.Name}}
+	}{}
+	data.Entity = {{lowercase .Name}}
+	data.Lookups = make(map[string]model.Labels)
+	
+	{{- $name := .Name}}
+	// Child tables when available
+	{{- range .Fields}}{{if eq .Kind "Parent"}}
+	data.{{.Object}}Childs = s.Env.{{$name | plural}}.GetAll{{.Object | plural}}ByParentID(asUint(id))
+	{{- end}}{{end}}
+	
+	// Labels for 'Lookup' or 'Parent' tables
+	{{- range .Fields}}{{if eq .Kind "Lookup" "Child"}}
+	data.Lookups["{{.Object | plural}}"], _ = s.Env.{{.Object | plural}}.GetLabels()	
+	{{- end}}{{end}}
+	
+	p:=NewPage("Edit {{.Name}}", "{{.Name | plural}}")
+	p.Data = data
+
+	return c.Render(http.StatusOK, "{{lowercase .Name}}detail", p)
+}
+
+// New{{.Name}} creates a new empty record and  
+// renders it with the '{{lowercase .Name}}detail' template
+func (s Server) New{{.Name}}(c echo.Context) error {
+	{{lowercase .Name}} := new(model.{{.Name}})
+
+	data := struct {		
+		Lookups map[string]model.Labels
+		{{- range .Fields}}{{if eq .Kind "Parent" }}
+		{{.Object}}Childs model.{{.Object}}List
+		{{- end}}{{end}}
+		Entity  *model.{{.Name}}
+	}{}
+	data.Entity = {{lowercase .Name}}
+	data.Lookups = make(map[string]model.Labels)
+	
+	{{- $name := .Name}}
+	{{- range .Fields}}{{if eq .Kind "Lookup" "Child"}}
+	data.Lookups["{{.Object | plural}}"], _ = s.Env.{{.Object | plural}}.GetLabels()	
+	{{- end}}{{end}}
+	
+	p:=NewPage("New {{.Name}}", "{{.Name | plural}}")
+	p.Data = data
+
+	return c.Render(http.StatusOK, "{{lowercase .Name}}detail", p)
+}
+
+// Create{{.Name}} creates a new record and prefills the record with the form fields
+// saves it to the databse and returns to the list view
+func (s Server) Create{{.Name}}(c echo.Context) (err error) {
+	{{lowercase .Name}} := new(model.{{.Name}})
+  	if err = c.Bind({{lowercase .Name}}); err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "{{.Name}} could not bound to params")
+  	}
+
+	p:=NewPage("Error {{.Name}}", "{{.Name | plural}}")
+	p.Data = {{lowercase .Name}}
+	
+	if s.validate{{.Name}}(p) == false {
+    	return c.Render(http.StatusOK, "{{lowercase .Name}}detail", p)
+  	}
+	
+
+	err = s.Env.{{.Name | plural}}.Insert({{lowercase .Name}})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "Database: {{.Name}} could not created")
+	}
+	
+	return c.Redirect(http.StatusFound, "/{{.Name | plural | lowercase}}")
+}
+
+// Update{{.Name}} updates an existing record with values from the form fields
+// saves it to the databse and returns to the list view
+func (s Server) Update{{.Name}}(c echo.Context) (err error) {
+	{{lowercase .Name}} := new(model.{{.Name}})
+  	if err = c.Bind({{lowercase .Name}}); err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "{{.Name}} could not bound to params")
+  	}
+
+	err = s.Env.{{.Name | plural}}.Update({{lowercase .Name}})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, "Database: {{.Name}} could not be updated")
+	}
+
+	return c.Redirect(http.StatusFound, "/{{.Name | plural | lowercase}}")
+}
+
+// Delete{{.Name}} deletes the record with id and
+// returns to the list view
+func (s Server) Delete{{.Name}}(c echo.Context) error {
+	id := c.Param("id")
+	
+	
+	{{- range .Fields}}{{if eq .Kind "Parent"}}
+	// one to many childs available do not delete
+	{{.Object | lowercase}}Childs := s.Env.{{$name | plural}}.GetAll{{.Object | plural}}ByParentID(asUint(id))
+	if len({{.Object | lowercase}}Childs)>0 {
+		return echo.NewHTTPError(http.StatusPreconditionFailed, fmt.Sprintf("{{$name}} with id '%s' could not be deleted dependencies to {{.Object | plural}}", id))	
+	}
+	{{- end}}{{end}}
+
+	err := s.Env.{{.Name | plural}}.Delete(asUint(id))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, fmt.Sprintf("{{.Name}} with id '%s' could not be deleted, %v", id, err))
+	}
+	
+	return c.Redirect(http.StatusFound, "/{{.Name | plural | lowercase}}")
+}
+
+// generic validation handler for form
+func (s Server) validate{{.Name}}(p *Page) bool{
+	return true // ToDo: custom validation
+	/*
+	p.Errors = make(map[string]string)
+	data := p.Data.(*{{.Name}})
+	{{range .Fields}}
+	{{- if eq .Kind "Longtext" "Email" "Tel" "Text" "Password"}} if (data.{{.Name}} != "") {		
+		p.Errors["{{.Name}}"]="Please correct error!"	
+	}
+	{{else if eq .Kind "Boolean"}} if (data.{{.Name}} != true) {		
+		p.Errors["{{.Name}}"]="Please correct error!"
+	}
+	{{end}}{{end}}
+	return len(p.Errors) == 0
+	*/
+}
+{{end}}
+{{end}}

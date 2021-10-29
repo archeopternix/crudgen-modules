@@ -1,0 +1,50 @@
+{{define "repository" -}}
+// Package model holds all entities and cross application definitions
+// Generated code - do not modify it will be overwritten!!
+// Time of generation: {{.TimeStamp}}
+package model
+
+import (
+
+)
+
+// Env holds all interfaces describing the methods of the entity access structs.
+// Interfaces have to be implemented by concrete DB access functions 
+type Env struct {
+	{{- range .Entities }}
+	{{.Name | plural}} {{.Name}}Repository
+	{{- end}}	
+}
+
+
+/* Handler are the standard handlers for CRUD applications
+type Handler interface{
+	Get(c echo.Context) error
+	List(c echo.Context) error
+	New(c echo.Context) error
+	Create(c echo.Context) error
+	Update(c echo.Context) error
+	Delete(c echo.Context) error
+}
+*/
+
+// Labels will be populated by the unique id and all fields tagged with isLabel=true
+type Labels map[uint64]string
+
+{{range .Entities }}
+// {{.Name}}Repository is the interface that has to be implemented with concrete
+// data access functions (databases)
+type {{.Name}}Repository interface {
+	Get(id uint64) (*{{.Name}}, error)
+	GetAll() ({{.Name}}List, error) 
+	Delete(id uint64) error 
+	Update({{.Name | lowercase}} *{{.Name}}) error 
+	Insert({{.Name | lowercase}} *{{.Name}}) error 
+ 	GetLabels() (Labels, error)
+	{{- range .Fields}}{{if eq .Kind "Parent"}}
+	GetAll{{.Name | plural}}ByParentID(parentID uint64) ({{.Name}}List)				
+	{{- end}}{{end}}
+}
+{{end}}
+
+{{- end}}
