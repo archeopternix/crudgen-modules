@@ -8,16 +8,16 @@ import (
 	"testing"
 	"math/rand"
 
-	model "{{.AppName}}/model"
+	model "{{.PackageName}}/model"
 )
 
 {{with .Entity}}
 
 // Test{{.Name}}RepoPositive tests the positive cases for accessing {{.Name}}Repo
-func Test{{.Name}}RepoPositive(t *testing.T) {
-	record := &model.{{.Name}}{{"{"}} {{range .Fields}}{{template "databaserepotesttypes" .}}{{end}}{{"}"}}
+func Test{{.Name | title}}RepoPositive(t *testing.T) {
+	record := &model.{{.Name | title}}{{"{"}} {{range .Fields}}{{template "databaserepotesttypes" .}}{{end}}{{"}"}}
 	if err := {{.Name | lowercase}}db.Insert(record); err != nil {
-		t.Errorf("adding {{.Name}} failed %v, %d", err, rand.Int())
+		t.Errorf("adding {{.Name | title}} failed %v, %d", err, rand.Int())
 	}
 	list, err := {{.Name | lowercase}}db.GetAll()
 	if err != nil {
@@ -54,9 +54,9 @@ func Test{{.Name}}RepoPositive(t *testing.T) {
 		t.Errorf("records expected, count :%d", len(labels))
 	}
 
-	{{$name:=.Name}}
-	{{range .Fields}}{{if eq .Kind "Child"}}
-	if childs:= {{.Object | lowercase}}db.GetAll{{$name | plural}}ByParentID(record.{{.Name}});  len(childs) == 1 {
+	{{$name:=.Name | title}}
+	{{range .Fields}}{{if eq .Kind "child"}}
+	if childs:= {{.Object | lowercase}}db.GetAll{{$name | plural}}ByParentID(record.{{.Name | title}});  len(childs) == 1 {
 		t.Logf("successfully retrieved %d labels by parentID from db", len(childs))
 	} else {
 		t.Errorf("1 record expected, count :%d", len(childs))
@@ -82,7 +82,7 @@ func Test{{.Name}}RepoPositive(t *testing.T) {
 
 // Test{{.Name}}RepoPositive tests the negative cases for accessing {{.Name}}Repo
 // is expected to throw errors
-func Test{{.Name}}RepoNegative(t *testing.T) {
+func Test{{.Name | title}}RepoNegative(t *testing.T) {
 	list, err := {{.Name | lowercase}}db.GetAll()
 	if err != nil {
 		t.Errorf("cannot get records from db %v", err)
@@ -100,7 +100,7 @@ func Test{{.Name}}RepoNegative(t *testing.T) {
 		t.Logf("as expected record not found and error returned")
 	}
 
-	record := &model.{{.Name}}{{"{"}} {{range .Fields}}{{template "databaserepotesttypes" .}}{{end}}{{"}"}}
+	record := &model.{{.Name | title}}{{"{"}} {{range .Fields}}{{template "databaserepotesttypes" .}}{{end}}{{"}"}}
 	err = {{.Name | lowercase}}db.Update(record)
 	if err == nil {
 		t.Errorf("expected not to update a record and throw an error")

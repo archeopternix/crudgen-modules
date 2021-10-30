@@ -1,13 +1,13 @@
 {{define "databaserepotesttypes"}}
-{{- if eq .Kind "Text"}}{{.Name}}: getText(15),{{end}}
-{{- if eq .Kind "Password"}}{{.Name}}: getText(15),{{end}}
-{{- if eq .Kind "Integer"}}{{- if ne .Name "ID"}}{{.Name}}: rand.Uint64(),{{end}}{{end}}
-{{- if eq .Kind "Number"}}{{.Name}}: rand.Float32(),{{end}}
-{{- if eq .Kind "Boolean"}}{{.Name}}:true,{{end}}
-{{- if eq .Kind "Email"}}{{.Name}}: getEmail(),{{end}}
-{{- if eq .Kind "Tel"}}	{{.Name}}: getText(12), {{end}}
-{{- if eq .Kind "Longtext"}}{{.Name}}: getText(50),{{end}}
-{{- if eq .Kind "Time"}}{{.Name}}:time.Now(),{{end}}
-{{- if eq .Kind "Lookup"}}{{.Name}}: 1,{{end}}
-{{- if eq .Kind "Child"}}{{.Name}}:1,{{end}}
+{{- if eq .Kind "text"}}{{.Name | title}}: getText(15),{{end}}
+{{- if eq .Kind "password"}}{{.Name | title}}: getText(15),{{end}}
+{{- if eq .Kind "integer"}}{{- if ne .Name "ID"}}{{.Name}}: rand.Uint64(),{{end}}{{end}}
+{{- if eq .Kind "number"}}{{.Name | title}}: rand.Float32(),{{end}}
+{{- if eq .Kind "boolean"}}{{.Name | title}}:true,{{end}}
+{{- if eq .Kind "email"}}{{.Name | title}}: getEmail(),{{end}}
+{{- if eq .Kind "tel"}}	{{.Name | title}}: getText(12), {{end}}
+{{- if eq .Kind "longtext"}}{{.Name | title}}: getText(50),{{end}}
+{{- if eq .Kind "time"}}{{.Name | title}}:time.Now(),{{end}}
+{{- if eq .Kind "lookup"}}{{.Name | title}}: 1,{{end}}
+{{- if eq .Kind "child"}}{{.Name | title}}:1,{{end}}
 {{- end}}

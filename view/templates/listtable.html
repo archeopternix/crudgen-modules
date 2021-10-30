@@ -9,9 +9,9 @@
                                      <thead>
                                       <tr>
                                         {{range .Fields -}}
-                                          {{- if ne .Kind "Parent" }}
-                                          {{- if eq .Kind "Lookup" "Child"}}<th>{{.Object}}</th>
-                                          {{- else if ne .Name "ID"}}<th>{{.Name}}</th>{{end}}
+                                          {{- if ne .Kind "parent" }}
+                                          {{- if eq .Kind "lookup" "child"}}<th>{{.Object | title}}</th>
+                                          {{- else if ne .Name "ID"}}<th>{{.Name | title}}</th>{{end}}
                                           {{- end}}
                                         {{end -}}
                                         <th></th>	
@@ -20,17 +20,17 @@
                                         <tbody>
                                           {{"{{"}}range .{{"}}"}}
                                           <tr>
-                                          {{- $entityname := .Name}}
+                                          {{- $entityname := .Name | title}}
                                             {{range .Fields}}                                                                                          
-                                              {{- if eq .Kind "Parent"}}{{end}}
-                                              {{- if eq .Kind "Child"}}<td>{{"{{"}}.{{.Object}}{{"}}"}} </td>{{end}}
-                                              {{- if eq .Kind "Lookup"}}<td>{{"{{"}}.{{.Object}}{{"}}"}} </td>{{end}}                                              
-                                              {{- if eq .Kind "Boolean"}}<td><span>{{"{{"}}if eq .{{.Name}} true{{"}}"}}<i class="far fa-check-square"></i>{{"{{"}}else{{"}}"}}<i class="far fa-square"></i>{{"{{"}}end{{"}}"}} </span> </td>{{end}}
-                                              {{- if eq .Kind "Tel" "Text" "Password" "Longtext" "Email"}}
-                                                {{- if eq .IsLabel true}}<td><a href="/{{$entityname | plural | lowercase}}/{{"{{.ID}}"}}">{{"{{"}}.{{.Name}}{{"}}"}}</a> </td>
-                                                {{- else}}<td>{{"{{"}}.{{.Name}}{{"}}"}} </td>{{end}}{{end}}
-                                              {{- if eq .Kind "Number"}}<td>{{"{{"}}.{{.Name}}{{"}}"}} </td>{{end}}
-                                              {{- if eq .Kind "Integer"}}{{- if ne .Name "ID"}}<td>{{"{{"}}.{{.Name}}{{"}}"}} </td>{{end}} {{end}}                                        
+                                              {{- if eq .Kind "parent"}}{{end}}
+                                              {{- if eq .Kind "child"}}<td>{{"{{"}}.{{.Object | title}}{{"}}"}} </td>{{end}}
+                                              {{- if eq .Kind "lookup"}}<td>{{"{{"}}.{{.Object | title}}{{"}}"}} </td>{{end}}                                              
+                                              {{- if eq .Kind "boolean"}}<td><span>{{"{{"}}if eq .{{.Name | title}} true{{"}}"}}<i class="far fa-check-square"></i>{{"{{"}}else{{"}}"}}<i class="far fa-square"></i>{{"{{"}}end{{"}}"}} </span> </td>{{end}}
+                                              {{- if eq .Kind "tel" "text" "password" "longtext" "email"}}
+                                                {{- if eq .IsLabel true}}<td><a href="/{{$entityname | plural | lowercase}}/{{"{{.ID}}"}}">{{"{{"}}.{{.Name | title}}{{"}}"}}</a> </td>
+                                                {{- else}}<td>{{"{{"}}.{{.Name | title}}{{"}}"}} </td>{{end}}{{end}}
+                                              {{- if eq .Kind "number"}}<td>{{"{{"}}.{{.Name | title}}{{"}}"}} </td>{{end}}
+                                              {{- if eq .Kind "integer"}}{{- if ne .Name "ID"}}<td>{{"{{"}}.{{.Name | title}}{{"}}"}} </td>{{end}} {{end}}                                        
                                             {{end}}
                                             <td>
                                             <div class="buttons is-right">

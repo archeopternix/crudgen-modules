@@ -5,7 +5,7 @@
 package view
 
 import (
-	model "{{.Config.Name}}/model"
+	model "{{.Config.PackageName}}/model"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"text/template"
@@ -76,12 +76,12 @@ func NewServer(env *model.Env) *Server {
 
 {{- range .Entities}}
 	// routes for {{.Name}}
-	s.GET("/{{.Name | plural | lowercase}}", s.List{{.Name | plural}})
-	s.GET("/{{.Name | plural | lowercase}}/:id", s.Get{{.Name}})
-	s.GET("/{{.Name | plural | lowercase}}/new", s.New{{.Name}})
-	s.POST("/{{.Name | plural | lowercase}}", s.Create{{.Name}})
-	s.POST("/{{.Name | plural | lowercase}}/:id", s.Update{{.Name}})
-	s.POST("/{{.Name | plural | lowercase}}/:id/delete", s.Delete{{.Name}})
+	s.GET("/{{.Name | plural | lowercase}}", s.List{{.Name | plural | title}})
+	s.GET("/{{.Name | plural | lowercase}}/:id", s.Get{{.Name | title}})
+	s.GET("/{{.Name | plural | lowercase}}/new", s.New{{.Name | title}})
+	s.POST("/{{.Name | plural | lowercase}}", s.Create{{.Name | title}})
+	s.POST("/{{.Name | plural | lowercase}}/:id", s.Update{{.Name | title}})
+	s.POST("/{{.Name | plural | lowercase}}/:id/delete", s.Delete{{.Name | title}})
 {{- end}}
 
 	return s

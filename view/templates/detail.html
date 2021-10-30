@@ -30,9 +30,9 @@
                         </div>
                       </form>
                       {{"{{- if .Entity.ID}}"}} 
-                      {{- range .Fields}}{{if eq .Kind "Parent"}}
+                      {{- range .Fields}}{{if eq .Kind "parent"}}
                       <hr class="hr" style="margin-bottom: 0;">
-                      {{"{{"}}template "{{.Object | singular | lowercase}}listtable" .{{.Object}}Childs{{"}}"}}
+                      {{"{{"}}template "{{.Object | singular | lowercase}}listtable" .{{.Object | title}}Childs{{"}}"}}
                       {{- end}}{{end}}{{"{{"}}end{{"}}"}} 
 {{"{{- end}}"}}  
 {{"{{"}}template "_footer" .{{"}}"}}

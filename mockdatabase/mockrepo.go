@@ -6,7 +6,7 @@ package database
 
 import (
 	"fmt"
-	model "{{.AppName}}/model"
+	model "{{.PackageName}}/model"
 )
 
 {{with .Entity}}

@@ -1,5 +1,5 @@
 {{define "databasebasicstest" -}}
-// Package mockdatabase contains structures and function for mock database access
+// Package database contains structures and function for mock database access
 // Generated code - do not modify it will be overwritten!!
 // Time: {{.TimeStamp}}
 package database
@@ -11,7 +11,7 @@ import (
 )
 
 {{range .Entities}}
-var {{.Name | lowercase}}db *{{.Name}}Repo
+var {{.Name | lowercase}}db *{{.Name | title}}Repo
 {{end}}
 
 const text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
