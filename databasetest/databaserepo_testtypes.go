@@ -1,7 +1,7 @@
 {{define "databaserepotesttypes"}}
 {{- if eq .Kind "text"}}{{.Name | title}}: getText(15),{{end}}
 {{- if eq .Kind "password"}}{{.Name | title}}: getText(15),{{end}}
-{{- if eq .Kind "integer"}}{{- if ne .Name "ID"}}{{.Name}}: rand.Uint64(),{{end}}{{end}}
+{{- if eq .Kind "integer"}}{{- if ne .Name "ID"}}{{.Name | title}}: rand.Uint64(),{{end}}{{end}}
 {{- if eq .Kind "number"}}{{.Name | title}}: rand.Float32(),{{end}}
 {{- if eq .Kind "boolean"}}{{.Name | title}}:true,{{end}}
 {{- if eq .Kind "email"}}{{.Name | title}}: getEmail(),{{end}}

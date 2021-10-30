@@ -45,9 +45,9 @@ func (repo {{.Name | title}}Repo) Get(id uint64) (*model.{{.Name | title}}, erro
 func (repo {{.Name | title}}Repo) GetAll() (model.{{.Name | title}}List, error) {
 	var list model.{{.Name | title}}List
 	for _,value:=range {{.Name | lowercase}}repo.data {
-		{{- range .Fields}}{{if eq .Kind "Lookup" "Child"}}
+		{{- range .Fields}}{{if eq .Kind "lookup" "child"}}
 		if {{.Object | lowercase}},_:= {{.Object | lowercase}}repo.Get(value.{{.Name | title}}); {{.Object | lowercase}}!=nil {
-			value.{{.Object}} = {{.Object | lowercase}}.Label()
+			value.{{.Object | title}} = {{.Object | lowercase}}.Label()
 		}
 		{{- end}}{{end}}
 		list = append(list,value)
@@ -96,11 +96,11 @@ func (repo {{.Name | title}}Repo) GetLabels() (model.Labels, error) {
 }
 
 {{$name:=.Name}}
-{{- range .Fields}}{{if eq .Kind "Parent"}}
+{{- range .Fields}}{{if eq .Kind "parent"}}
 // GetAll{{.Name | plural}}ByParentID returns a map with the key id and the value of
 // all fields tagged with isLabel=true and separated by a blank
-func (repo {{$name | title}}Repo) GetAll{{.Name | plural}}ByParentID(parentID uint64) (model.{{.Name | title}}List)	{
-	list := model.{{.Name}}List{}
+func (repo {{$name | title}}Repo) GetAll{{.Name | plural | title}}ByParentID(parentID uint64) (model.{{.Name | title}}List)	{
+	list := model.{{.Name | title}}List{}
 	{{.Name | plural | lowercase}}, err := {{.Name | lowercase}}repo.GetAll()
 	if err!=nil {
 		return list
