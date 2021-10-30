@@ -12,7 +12,7 @@ import (
 // Interfaces have to be implemented by concrete DB access functions 
 type Env struct {
 	{{- range .Entities }}
-	{{.Name | plural}} {{.Name}}Repository
+	{{.Name | plural | title}} {{.Name | title}}Repository
 	{{- end}}	
 }
 
@@ -32,17 +32,17 @@ type Handler interface{
 type Labels map[uint64]string
 
 {{range .Entities }}
-// {{.Name}}Repository is the interface that has to be implemented with concrete
+// {{.Name | title}}Repository is the interface that has to be implemented with concrete
 // data access functions (databases)
-type {{.Name}}Repository interface {
-	Get(id uint64) (*{{.Name}}, error)
-	GetAll() ({{.Name}}List, error) 
+type {{.Name | title}}Repository interface {
+	Get(id uint64) (*{{.Name | title}}, error)
+	GetAll() ({{.Name | title}}List, error) 
 	Delete(id uint64) error 
-	Update({{.Name | lowercase}} *{{.Name}}) error 
-	Insert({{.Name | lowercase}} *{{.Name}}) error 
+	Update({{.Name | lowercase}} *{{.Name | title}}) error 
+	Insert({{.Name | lowercase}} *{{.Name | title}}) error 
  	GetLabels() (Labels, error)
 	{{- range .Fields}}{{if eq .Kind "Parent"}}
-	GetAll{{.Name | plural}}ByParentID(parentID uint64) ({{.Name}}List)				
+	GetAll{{.Name | plural | title}}ByParentID(parentID uint64) ({{.Name | title}}List)				
 	{{- end}}{{end}}
 }
 {{end}}
