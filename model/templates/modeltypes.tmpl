@@ -1,17 +1,17 @@
 {{define "modeltypes"}}
-{{- if eq .Kind "Text"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Password"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Integer"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Number"}}	{{.Name | title}}	float64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Boolean"}}	{{.Name | title}}	bool	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Email"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Tel"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Longtext"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}" ,db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Time"}}	{{.Name | title}}	time.Time	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
-{{- if eq .Kind "Lookup"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// Lookup entity: {{.Name | title}}
+{{- if eq .Kind "text"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "password"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "integer"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "number"}}	{{.Name | title}}	float64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "boolean"}}	{{.Name | title}}	bool	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "email"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "tel"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "longtext"}}	{{.Name | title}}	string	`form:"{{lowercase .Name}}" ,db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "time"}}	{{.Name | title}}	time.Time	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`{{end}}
+{{- if eq .Kind "lookup"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// Lookup entity: {{.Name | title}}
 	{{.Object | title}}	string // {{.Object | title}} label will not be persistet is list view{{end}}
-{{- if eq .Kind "Parent"}}	{{.Name | plural | title}}	{{.Object | title}}List	`form:"-"`	// one2many: childs only for view (not persistet){{end}}
-{{- if eq .Kind "Child"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// one2many: parent entity {{.Name | title}}
+{{- if eq .Kind "parent"}}	{{.Name | plural | title}}	{{.Object | title}}List	`form:"-"`	// one2many: childs only for view (not persistet){{end}}
+{{- if eq .Kind "child"}}	{{.Name | title}}	uint64	`form:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// one2many: parent entity {{.Name | title}}
 	{{.Object | title}}	string // {{.Object}} label will not be persistet is for list view{{end}}
 {{- if eq .Kind "manychild"}}	{{.Name | title}}Id	string	`json:"{{lowercase .Name}}", db:"{{lowercase .Name}}"`	// many2many: Id of parent object, mappingtable: {{.Object | title}}{{end}}
 {{- if eq .Kind "manyparent"}}	{{.Name | plural | title}}	{{.Name | title}}List	`json:"-"`	// many2many: childs of target, mappingtable: {{.Object | title}}{{end}}
