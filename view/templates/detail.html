@@ -1,8 +1,9 @@
 {{define "detail" -}}
+{{$timestamp := .TimeStamp}}
 {{with .Entity}}
 {{"{{"}}define "{{lowercase .Name}}detail" {{"}}"}}
 {{"{{"}}template "base" .{{"}}"}}
-<!-- Time: {{.TimeStamp}} -->
+<!-- Time: {{$timestamp}} -->
 {{"{{"}}$errors:= .Errors{{"}}"}}
 {{"{{"}}with .Data{{"}}"}}
                       <form method="post" action="/{{.Name | plural | lowercase}}{{"{{if .Entity.ID}}"}}/{{"{{.Entity.ID}}"}}{{"{{end}}"}}" name="{{.Name | lowercase}}">

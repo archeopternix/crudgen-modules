@@ -5,7 +5,7 @@ tasks:
 - kind: template
   fileext: .go
   source:
-  - server\server.tmpl
+  - server\server.go
   target: view
   template: server
   filename: server

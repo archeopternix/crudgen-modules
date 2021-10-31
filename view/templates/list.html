@@ -1,8 +1,9 @@
 {{define "list" -}}
+{{$timestamp := .TimeStamp}}
 {{with .Entity}}
 {{"{{"}}define "{{lowercase .Name}}list" {{"}}"}}
 {{"{{"}}template "base" .{{"}}"}}
-<!-- Time: {{.TimeStamp}} -->
+<!-- Time: {{$timestamp}} -->
 {{"{{"}}template "{{lowercase .Name}}listtable" .Data.Records{{"}}"}}
 
 {{"{{"}}template "_footer" .{{"}}"}}

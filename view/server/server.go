@@ -18,7 +18,7 @@ import (
 type FormatSettings struct {
 		CurrencySymbol    string
 		DecimalSeparator  string
-		ThousendSeparator string
+		ThousandSeparator string
 		TimeFormat        string
 		DateFormat        string
 }
@@ -49,11 +49,11 @@ func NewServer(env *model.Env) *Server {
 	s := new(Server)
 	s.Env = env
 	s.Settings = FormatSettings{
-		CurrencySymbol: "{{.Settings.CurrencySymbol}}",
-		DecimalSeparator: "{{.Settings.DecimalSeparator}}",
-		ThousendSeparator: "{{.Settings.ThousendSeparator}}",
-		TimeFormat: "{{.Settings.TimeFormat}}",
-		DateFormat: "{{.Settings.DateFormat}}",		
+		CurrencySymbol: "{{.Config.CurrencySymbol}}",
+		DecimalSeparator: "{{.Config.DecimalSeparator}}",
+		ThousandSeparator: "{{.Config.ThousandSeparator}}",
+		TimeFormat: "{{.Config.TimeFormat}}",
+		DateFormat: "{{.Config.DateFormat}}",		
 	}
 	s.Echo = echo.New()
 
