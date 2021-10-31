@@ -9,7 +9,3 @@ tasks:
   target: 
   template: main
   filename: main
-- kind: copy
-  source:
-  - go.mod
-  target: .

@@ -41,7 +41,7 @@ type {{.Name | title}}Repository interface {
 	Update({{.Name | lowercase}} *{{.Name | title}}) error 
 	Insert({{.Name | lowercase}} *{{.Name | title}}) error 
  	GetLabels() (Labels, error)
-	{{- range .Fields}}{{if eq .Kind "Parent"}}
+	{{- range .Fields}}{{if eq .Kind "parent"}}
 	GetAll{{.Name | plural | title}}ByParentID(parentID uint64) ({{.Name | title}}List)				
 	{{- end}}{{end}}
 }
