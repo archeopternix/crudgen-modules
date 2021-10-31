@@ -83,8 +83,8 @@
                                   <div class="control">
                                     <div class="select">
                                       <select name="{{.Name | lowercase}}" id="{{.Name | lowercase}}" value="{{"{{"}}.Entity.{{.Name | title}}{{"}}"}}">
-                                      {{"{{"}}$selected:=.Entity.{{.Name}}{{"}}"}}
-                                       {{"{{"}}range $key, $value :=(index .Lookups "{{.Object | plural}}"){{"}}"}}
+                                      {{"{{"}}$selected:=.Entity.{{.Name | title}}{{"}}"}}
+                                       {{"{{"}}range $key, $value :=(index .Lookups "{{.Object | plural | title}}"){{"}}"}}
                                         <option value="{{"{{$key}}"}}" {{"{{"}}if eq $key $selected{{"}}"}}selected{{"{{"}}end{{"}}"}}>{{"{{$value}}"}}</option>
                                       {{"{{end}}"}}
                                       </select>
