@@ -1,2 +1,2 @@
 # CRUDgen-modules
-Frontend and backend modules for CRUDgen application generator [https://github.com/archeopternix/crudgen](CRUDgen)
+Frontend and backend modules for [CRUDgen](https://github.com/archeopternix/crudgen) application generator 
